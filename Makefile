@@ -36,4 +36,4 @@ run:
 
 # Executed on "make clean"
 clean:
-	$(RM) build/*.o mygame
+	$(RM) $(BUILDDIR)/*.o $(EXECUTABLE)
