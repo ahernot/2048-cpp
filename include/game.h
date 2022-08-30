@@ -5,11 +5,14 @@
 class Game {
 
     public:
-        Game();
-        std::vector<int> getGame();
-        void move (int& direction);
+        Game(int size);
+        // std::vector<int> getGame();
+        void print();
+        void move (int direction);
 
     private:
-        std::vector<int> game;
+        int size;
+        int* board;
+        // std::vector<int> game;
     
 };
