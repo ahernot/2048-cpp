@@ -1,21 +1,39 @@
 # Define commands as not actual files that are generated
 .PHONY: all run clean
 
-# Variables
+
+# Command line variables
 CXX = g++  # compiler
-objects = main.o game.o
+FLAGS = -g -c
+
+# Paths
+EXECUTABLE = Game
+SOURCEDIR = ./src
+BUILDDIR = ./build
+
+# Files
+SOURCES = $(wildcard $(SOURCEDIR)/*.cpp)  # Find all .cpp files in ./src
+OBJECTS = $(patsubst $(SOURCEDIR)/%.cpp, $(BUILDDIR)/%.o, $(SOURCES))  # Replace extension .cpp with .o
+
 
 # Executed on "make" (default) and on "make all"
-all: mygame
+all: Game
+
 
 # Combine compiled files (implicit compiling through g++ -c header.h code.cpp for each file)
-mygame: $(objects)
-	$(CXX) -o mygame $(objects)
+$(EXECUTABLE): $(OBJECTS)
+	$(CXX) $^ -o $@
+#	$(CXX) -o $(EXECUTABLE) build/$(OBJECTS)
+
+# Compile files
+$(OBJECTS): $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
+	$(CXX) $(FLAGS) $< -o $@
+
 
 # Executed on "make run"
 run:
-	./mygame
+	./$(EXECUTABLE)
 
 # Executed on "make clean"
 clean:
-	$(RM) *.o mygame
+	$(RM) build/*.o mygame
